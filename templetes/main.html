@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Django</title>
+    <link rel="stylesheet" type="text/css" href="{% static "css/foundation.css" %}">
+    <link rel="stylesheet" type="text/css" href="{% static "css/foundation.min.css" %}">
+    <link rel="stylesheet" type="text/css" href="{% static "css/normalize.css" %}">
+    <link rel="stylesheet" href="{% static "css/prettyPhoto.css" %}"
+         type="text/css" media="screen" charset="utf-8" />
+    <script src="{% static "js/jquery-1.6.1.min.js" %}" type="text/javascript"
+    charset="utf-8"></script>
+    <script src="{% static "js/jquery.prettyPhoto.js"%}" type="text/javascript"
+        charset="utf-8"></script>
+</head>
+<body>
+<nav class="top-bar" data-topbar role="navigation">
+  <ul class="title-area">
+    <li class="name active">
+      <h1><a href="/albums/all/"><strong>Gallery </strong></a></h1>
+    </li>
+</ul>
+
+
+  <section class="top-bar-section">
+<ul class="right">
+<li class="has-form">
+  <div class="row collapse">
+      {% if username %}
+    <form method="GET" action="/albums/search/">
+    <div class="large-8 small-9 columns">
+      <input type="text" name="search" placeholder="Найти альбом">
+    </div>
+    <div class="large-4 small-3 columns">
+      <button type="submit" class="alert button expand">Search</button>
+    </div></form>
+      {% endif %}
+  </div>
+</li>
+</ul>
+    <ul class="left">
+        {% if username %}
+            <li class="active"><a href="/auth/logout/">Выйти ({{ username }})</a></li>
+            <li class="active"><a href="/albums/add_album/">Добавить альбом</a></li>
+            <li class="active"><a href="/albums/my_albums/">Мои альбомы</a></li>
+        {% else %}
+            <li class="active"><a href="/auth/login/">Войти</a></li>
+            <li class="active"><a href="/auth/register/">Регистрация</a></li>
+        {% endif %}
+    </ul>
+  </section>
+</nav>
+<div class="header myhead ">
+    {% if username and avatar.avatar %}
+        <p><img src="{{ avatar.avatar.url }}" class="ava" ></p>
+    {% else %}
+        Media Gallery
+    {% endif %}
+</div>
+<div class="row">
+{{ search }}
+{% block albums %}{% endblock %}
+{% block login %}{% endblock %}
+</div>
+<div class="myfooter"></div>
+<div class="myfooter2">
+&copy; Алексей Зацепин
+</div>
+</body>
+</html>

@@ -1,0 +1,10 @@
+{% extends 'main.html' %}
+{% block albums %}
+{% load staticfiles %}
+
+    <form action="/albums/add_album1/" method="POST">
+{% csrf_token %}
+{{ form }}
+    <input type="submit" class="button" value="Add album">
+    </form>
+{% endblock %}

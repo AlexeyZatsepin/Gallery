@@ -1,0 +1,43 @@
+{% extends 'main.html' %}
+{% block albums %}
+{% load imagekit %}
+{% load staticfiles %}
+<h1 xmlns="http://www.w3.org/1999/html">{{ album.title }}</h1>
+<p class="right">Добавлено:{{ album.album_date }}</p>
+<p id="albummain">{% thumbnail '300x300' album.img  %}</p>
+<hr>
+<h4>Photos:</h4>
+    <ul class="small-block-grid-2 medium-block-grid-3 large-block-grid-4">
+{% for photo in photos %}
+    <li>
+   <a href="/albums/photo/get/{{ photo.id }}/"> <h4 class="hid">Название:{{ photo.title }}</h4>
+    <p>{% thumbnail '220x220'  photo.img -- class="greenday" %}</p></a>
+    <p class="hid"><a href="/albums/add_like_photo/{{ photo.id }}/"><img src="{% static "images/like.jpg" %}" alt="Мне нравится" width="25px" height="25px"></a>{{ photo.photo_likes }}</p>
+    </li>
+{% endfor %}
+
+    {% if username %}
+
+    <li>
+    <h4 class="hid">Добавить фото</h4>
+    <input type="submit" class="btn"  id="toggle-content" >
+    <div id="extra-content">
+     <form action="/albums/add_photo/{{ album.id }}/" method="POST">
+    {% csrf_token %}
+        {{ form }}
+      <input type="submit"  name="add" value="Send" />
+   </form>
+    </div>
+
+    </li>{% endif %}</ul>
+    <script type="text/javascript">
+$(document).ready(function() {
+    $("#extra-content").hide();
+    $("#toggle-content").click(function(){
+        $("#extra-content").show();
+        $("#toggle-content").hide();
+    });
+});
+</script>
+{% endblock %}
+

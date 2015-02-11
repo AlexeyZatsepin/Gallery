@@ -1,0 +1,44 @@
+{% extends 'main.html' %}
+{% load staticfiles %}
+{% load imagekit %}
+{% block albums%}
+    <div class="album">
+<ul class="small-block-grid-2 medium-block-grid-3 large-block-grid-4">
+{% for album in albums %}
+
+    <li class="qq "><a href="/albums/get/{{ album.id }}/">
+    <h4>{{ album.title }}</h4>
+    {% thumbnail '220x220'  album.img %}</a>
+    <p class="right ">by:{{ album.album_user }}</p>
+    <p><a href="/albums/add_like/{{ album.id }}/"><img src="{% static "images/like.jpg" %}" alt="Мне нравится" width="25px" height="25px"></a>{{ album.album_likes }}</p>
+    </li>
+{% endfor %}
+</ul>
+</div>
+<div class="row">
+    <div class="large-3 large-offset-5 columns">
+        <ul class="pagination">
+            {% if albums.has_previous %}
+                <li class="arrow"><a href="/albums/page/{{ albums.previous_page_number }}/">&laquo;</a></li>
+            {% else %}
+                <li class="arrow unavailable"><a href="">&laquo;</a></li>
+            {% endif %}
+            {% for page in albums.paginator.page_range %}
+                {% if page == albums.number %}
+                    <li class="current"><a href="/albums/page/{{ page }}/">{{ page }}</a></li>
+                {% else %}
+                    <li><a href="/albums/page/{{ page }}/">{{ page }}</a></li>
+                {% endif %}
+            {% endfor %}
+            {% if albums.has_next %}
+                <li class="arrow"><a href="/albums/page/{{ albums.next_page_number }}/">&raquo;</a></li>
+            {% else %}
+                <li class="arrow unavailable"><a href="">&raquo;</a></li>
+            {% endif %}
+        </ul>
+    </div>
+    </div>
+
+
+
+{% endblock %}

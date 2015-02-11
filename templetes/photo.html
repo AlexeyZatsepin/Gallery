@@ -1,0 +1,23 @@
+{% extends 'main.html' %}
+{% block albums %}
+{% load staticfiles %}
+<h1>{{ photo.title }}</h1>
+<p><img src="{{ photo.img.url }}" ></p>
+<h4>Добавлено:{{ photo.photo_date }}</h4>
+<hr>
+<h4>Comments:</h4>
+{% for comment in comments %}
+    <h6>By:{{ comment.comments_author }}</h6>
+    <p>{{ comment.comments_text }}</p>
+    <p class="right">Добавлено:{{ comment.comments_date }}</p>
+    <p><a href="/albums/add_like_comment/{{ comment.id }}/{{ photo.id }}/"><img src="{% static "images/like.jpg" %}" alt="Мне нравится" width="25px" height="25px"></a>{{comment.comments_likes }}</p>
+    <hr>
+{% endfor %}
+   {% if username %}
+    <form action="/albums/add_comment/{{ photo.id }}/" method="POST">
+{% csrf_token %}
+{{ form }}
+    <input type="submit" class="button" value="Add comment">
+    </form>
+    {% endif %}
+{% endblock %}
